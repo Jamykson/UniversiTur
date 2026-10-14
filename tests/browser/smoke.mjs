@@ -189,7 +189,7 @@ try {
   assert.equal(await progress(), 1);
   assert.equal(
     await evaluate("document.querySelector('.destination h2').textContent"),
-    'Biblioteca Zila Mamede',
+    'Centro de Convivência',
   );
   await eventually(
     "document.querySelector('.dialog-photo img')?.complete && document.querySelector('.dialog-photo img')?.naturalWidth>0",
@@ -220,8 +220,8 @@ try {
   assert.equal(await progress(), 0, 'Future stops stay locked');
   for (const [index, coordinates] of [
     [-5.8392, -35.2014],
+    [-5.838975, -35.199798],
     [-5.839842, -35.199024],
-    [-5.8415, -35.2003],
     [-5.8436, -35.1995],
     [-5.8423, -35.2028],
   ].entries()) {

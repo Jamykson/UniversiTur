@@ -17,6 +17,21 @@ export const stops = [
     duration: 8,
   },
   {
+    id: 'convivencia',
+    name: 'Centro de Convivência',
+    category: 'ENCONTROS & VIDA NO CAMPUS',
+    short: 'Uma pausa para sentir a universidade.',
+    // Referência RNP: Centro de Convivência, sede do PoP-RN.
+    coords: [-5.838975, -35.199798],
+    image: publicAsset('images/convivencia.jpg'),
+    caption: 'Restaurante da APURN, no Centro de Convivência · Foto: APURN',
+    imageSource: 'https://www.apurn.org.br/espacos',
+    description:
+      'O Centro de Convivência Djalma Marinho teve sua obra concluída em 1982. Um espaço de encontros que faz parte da vida cotidiana do campus e convida a uma pausa entre as descobertas.',
+    tip: 'Aproveite para descansar e trocar impressões sobre o passeio.',
+    duration: 7,
+  },
+  {
     id: 'biblioteca',
     name: 'Biblioteca Zila Mamede',
     category: 'CULTURA & CONHECIMENTO',
@@ -31,20 +46,6 @@ export const stops = [
       'A Biblioteca Central Zila Mamede nasceu em 1959 como Serviço Central de Biblioteca. Hoje, é uma referência de conhecimento e memória na universidade.',
     tip: 'Antes de entrar, consulte os horários e as regras de visitação.',
     duration: 10,
-  },
-  {
-    id: 'convivencia',
-    name: 'Centro de Convivência',
-    category: 'ENCONTROS & VIDA NO CAMPUS',
-    short: 'Uma pausa para sentir a universidade.',
-    coords: [-5.8415, -35.2003],
-    image: publicAsset('images/convivencia.jpg'),
-    caption: 'Restaurante da APURN, no Centro de Convivência · Foto: APURN',
-    imageSource: 'https://www.apurn.org.br/espacos',
-    description:
-      'O Centro de Convivência Djalma Marinho teve sua obra concluída em 1982. Um espaço de encontros que faz parte da vida cotidiana do campus e convida a uma pausa entre as descobertas.',
-    tip: 'Aproveite para descansar e trocar impressões sobre o passeio.',
-    duration: 7,
   },
   {
     id: 'ect',

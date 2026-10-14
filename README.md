@@ -28,7 +28,7 @@ npm run preview
 ## Uso
 
 1. O app abre no mapa e solicita a localização. **Explorar com GPS** permite tentar novamente.
-2. A ordem prioriza a menor distância total a pé entre as cinco paradas, começando pela Reitoria (veja [o cálculo](docs/ROTEIRO.md)): **Reitoria → Biblioteca → Centro de Convivência → ECT → CB**. Apenas a etapa atual pode registrar uma chegada.
+2. A ordem prioriza a menor distância total a pé entre as cinco paradas, começando pela Reitoria (veja [o cálculo](docs/ROTEIRO.md)): **Reitoria → Centro de Convivência → Biblioteca → ECT → CB**. Apenas a etapa atual pode registrar uma chegada.
 3. O GPS libera a parada a até 45 metros, com precisão informada de até 80 metros. O lugar abre automaticamente e o próximo caminho fica disponível.
 4. **Simular** usa o mesmo trajeto a pé do mapa. O avatar percorre suas curvas em até 14 segundos e chega nas proximidades: normalmente a 30 metros. Um final ajustado pelo serviço de rotas é aceito dentro de 45 metros da parada. Uma falha no trajeto não registra visita.
 5. Arraste a alça para baixo para minimizar o painel; para cima, restaure os controles ou exiba todas as paradas. A alça também aceita toque e teclado. Não há botões extras de expansão/recolhimento.

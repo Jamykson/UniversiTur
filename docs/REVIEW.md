@@ -57,4 +57,4 @@ Revisão realizada em 14/10/2026. O projeto existente foi refatorado; o visual, 
 
 ## Atualização do roteiro e favicon
 
-O favicon passou a ser declarado com a base do Vite. A ordem atual foi selecionada entre 24 sequências pelas distâncias a pé do roteador: Reitoria → Biblioteca → Convivência → ECT → CB. Consulte [ROTEIRO.md](ROTEIRO.md) para a matriz, estimativas e critérios. Visitas existentes são preservadas mesmo quando ficam fora do prefixo da nova ordem; apenas o primeiro ponto ainda não visitado pode registrar uma nova chegada. O fluxo completo e o favicon foram novamente validados no Chrome com o build de produção.
+O favicon passou a ser declarado com a base do Vite. A ordem atual foi selecionada entre 24 sequências pelas distâncias a pé do roteador: Reitoria → Convivência → Biblioteca → ECT → CB. Consulte [ROTEIRO.md](ROTEIRO.md) para a matriz, estimativas e critérios. Visitas existentes são preservadas mesmo quando ficam fora do prefixo da nova ordem; apenas o primeiro ponto ainda não visitado pode registrar uma nova chegada. O fluxo completo e o favicon foram novamente validados no Chrome com o build de produção.

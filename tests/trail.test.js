@@ -63,14 +63,14 @@ test('keeps the existing storage key and tolerates corrupt or denied storage', (
 test('reordering preserves old visits without unlocking future unvisited stops', () => {
   const migrated = normalizeProgress(['reitoria', 'ect', 'cb']);
   assert.deepEqual(migrated, ['reitoria', 'ect', 'cb']);
-  assert.equal(nextStop(migrated).id, 'biblioteca');
+  assert.equal(nextStop(migrated).id, 'convivencia');
   assert.equal(
     canVisit(
-      stops.find((stop) => stop.id === 'convivencia'),
+      stops.find((stop) => stop.id === 'biblioteca'),
       migrated,
     ),
     false,
   );
-  assert.equal(nextStop([...migrated, 'biblioteca']).id, 'convivencia');
+  assert.equal(nextStop([...migrated, 'convivencia']).id, 'biblioteca');
   assert.equal(nextStop([...migrated, 'biblioteca', 'convivencia']), undefined);
 });
