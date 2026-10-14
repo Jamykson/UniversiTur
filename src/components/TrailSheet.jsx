@@ -199,9 +199,7 @@ export default function TrailSheet({
             </p>
           </div>
           <div className="sheet-footer">
-            <a href="https://campusvirtual.ufrn.br/" target="_blank" rel="noreferrer">
-              Fotos: Campus Virtual UFRN ↗
-            </a>
+            <span className="photo-credit">Fotos: fontes em cada parada</span>
             <button onClick={reset}>
               <RotateCcw size={14} />
               Reiniciar trilha

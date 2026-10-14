@@ -49,7 +49,22 @@ export default function PlaceDialog({ detail, visited, next, onClose, onContinue
           <div className="dialog-body">
             <div className="eyebrow">{detail.category}</div>
             <h2 id="place-title">{detail.name}</h2>
-            {detail.caption && <small className="photo-credit">{detail.caption}</small>}
+            {detail.caption && (
+              <small className="photo-credit">
+                <a href={detail.imageSource} target="_blank" rel="noreferrer">
+                  {detail.caption}
+                </a>
+                {detail.imageLicense && (
+                  <>
+                    {' '}
+                    ·{' '}
+                    <a href={detail.imageLicenseUrl} target="_blank" rel="noreferrer">
+                      {detail.imageLicense}
+                    </a>
+                  </>
+                )}
+              </small>
+            )}
             <p>{detail.description}</p>
             <div className="tip">
               <Leaf size={20} />

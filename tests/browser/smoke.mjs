@@ -182,7 +182,7 @@ try {
   );
   assert.ok(
     await evaluate(
-      "document.querySelector('.dialog-photo img').src.includes('/UniversiTur/images/reitoria.jpg')",
+      "document.querySelector('.dialog-photo img').src.includes('/UniversiTur/images/reitoria-campus.jpg')",
     ),
   );
   await evaluate(
@@ -216,6 +216,15 @@ try {
       'sequential progress',
     );
     await eventually("document.querySelector('dialog').open", 'stop details');
+    await eventually(
+      "document.querySelector('.dialog-photo img')?.complete && document.querySelector('.dialog-photo img')?.naturalWidth > 0",
+      `local photo for stop ${index + 1}`,
+    );
+    assert.ok(
+      await evaluate(
+        "document.querySelector('.dialog-photo img').src.includes('/UniversiTur/images/')",
+      ),
+    );
     await evaluate("document.querySelector('.close-dialog').click()");
   }
   await eventually("!!document.querySelector('.completion-screen')", 'completion screen');
