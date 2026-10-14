@@ -1,18 +1,16 @@
 import { stops } from './data.js';
 export const PROGRESS_KEY = 'universitour-sequential-v1';
-// Only an uninterrupted prefix counts as progress in a sequential trail.
+// Keep valid recorded visits when the itinerary is reordered; only the first
+// unvisited stop can be unlocked. The original Reitoria start is still required.
 export function normalizeProgress(saved) {
-  if (!Array.isArray(saved)) return [];
-  const result = [];
-  for (const stop of stops) {
-    if (!saved.includes(stop.id)) break;
-    result.push(stop.id);
-  }
-  return result;
+  if (!Array.isArray(saved) || !saved.includes(stops[0].id)) return [];
+  return stops.filter((stop) => saved.includes(stop.id)).map((stop) => stop.id);
 }
 export function nextStop(visited) {
-  return stops[normalizeProgress(visited).length];
+  const completed = normalizeProgress(visited);
+  return stops.find((stop) => !completed.includes(stop.id));
 }
+
 export function canVisit(stop, visited) {
   return nextStop(visited)?.id === stop.id;
 }

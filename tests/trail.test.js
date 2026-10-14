@@ -10,11 +10,14 @@ import {
   saveProgress,
 } from '../src/trail.js';
 
-test('only a contiguous prefix unlocks the next stop', () => {
+test('only the next unvisited stop can be unlocked', () => {
   assert.deepEqual(normalizeProgress(null), []);
   assert.deepEqual(normalizeProgress({ length: 5 }), []);
   assert.deepEqual(normalizeProgress(['ect', 'cb']), []);
-  assert.deepEqual(normalizeProgress(['reitoria', 'cb', 'reitoria', 'unknown']), ['reitoria']);
+  assert.deepEqual(normalizeProgress(['reitoria', 'cb', 'reitoria', 'unknown']), [
+    'reitoria',
+    'cb',
+  ]);
   for (let index = 0; index < stops.length; index++) {
     const visited = stops.slice(0, index).map((stop) => stop.id);
     assert.equal(nextStop(visited), stops[index]);
@@ -55,4 +58,19 @@ test('keeps the existing storage key and tolerates corrupt or denied storage', (
     if (descriptor) Object.defineProperty(globalThis, 'localStorage', descriptor);
     else delete globalThis.localStorage;
   }
+});
+
+test('reordering preserves old visits without unlocking future unvisited stops', () => {
+  const migrated = normalizeProgress(['reitoria', 'ect', 'cb']);
+  assert.deepEqual(migrated, ['reitoria', 'ect', 'cb']);
+  assert.equal(nextStop(migrated).id, 'biblioteca');
+  assert.equal(
+    canVisit(
+      stops.find((stop) => stop.id === 'convivencia'),
+      migrated,
+    ),
+    false,
+  );
+  assert.equal(nextStop([...migrated, 'biblioteca']).id, 'convivencia');
+  assert.equal(nextStop([...migrated, 'biblioteca', 'convivencia']), undefined);
 });

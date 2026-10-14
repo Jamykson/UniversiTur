@@ -42,7 +42,7 @@ Revisão realizada em 14/10/2026. O projeto existente foi refatorado; o visual, 
 
 - `npm run lint`: executado, sem erros.
 - `npm run format:check`: executado, todos os arquivos aprovados.
-- `npm test`: regras de progresso, localStorage indisponível/corrompido, coordenadas e distâncias, URLs locais, movimento nas curvas, chegada antecipada, grafo de pedestres, resposta inválida, cancelamento e erro HTTP. Os quatro arquivos contêm 15 casos; execução direta dos arquivos permite ver os casos individuais neste ambiente.
+- `npm test`: regras de progresso, localStorage indisponível/corrompido, coordenadas e distâncias, URLs locais, movimento nas curvas, chegada antecipada, grafo de pedestres, resposta inválida, cancelamento e erro HTTP. Os cinco arquivos contêm 18 casos; execução direta dos arquivos permite ver os casos individuais neste ambiente.
 - `npm run build`: executado com sucesso com a base do GitHub Pages.
 - `npm run test:browser`: executado no servidor de desenvolvimento e no preview do build de produção; Chrome headless com GPS e serviço de rotas simulados; solicitações automáticas, callbacks antigos, cancelamento pendente, rota estável durante movimento, ordem das cinco etapas, imagens locais, responsividade, conclusão, revisita e reset.
 - `git diff --check`: executado, sem problemas de whitespace.
@@ -54,3 +54,7 @@ Revisão realizada em 14/10/2026. O projeto existente foi refatorado; o visual, 
 1. **GPS e coordenadas no campus:** coordenadas ainda são aproximadas. Os testes usam GPS controlado e não substituem validação física dos locais, acessos e precisão em dispositivos reais. A revisão não inventou coordenadas nem mudou o conteúdo para encobrir essa limitação.
 2. **Dependências de desenvolvimento:** `npm audit` reportou cinco alertas de severidade alta na cadeia `gh-pages → globby → fast-glob → micromatch → braces`. O [aviso GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) informa que não há versão corrigida de `braces`. O npm sugere downgrade do `gh-pages` para 6.1.1; isso não foi aplicado automaticamente porque alteraria a configuração de publicação mantida pelo usuário. Os padrões de publicação atuais são locais e fixos, sem entrada de padrões pelo visitante do app. `npm audit --omit=dev` retornou zero vulnerabilidades. Reavaliar quando houver atualização compatível; não executar `npm audit fix --force` sem revisar o impacto.
 3. **Serviços externos:** imagens remotas e roteamento real dependem dos provedores e dos caminhos disponíveis no OpenStreetMap. Os testes de integração usam respostas controladas; não certificam disponibilidade externa ou acessibilidade de todos os caminhos.
+
+## Atualização do roteiro e favicon
+
+O favicon passou a ser declarado com a base do Vite. A ordem atual foi selecionada entre 24 sequências pelas distâncias a pé do roteador: Reitoria → Biblioteca → Convivência → ECT → CB. Consulte [ROTEIRO.md](ROTEIRO.md) para a matriz, estimativas e critérios. Visitas existentes são preservadas mesmo quando ficam fora do prefixo da nova ordem; apenas o primeiro ponto ainda não visitado pode registrar uma nova chegada. O fluxo completo e o favicon foram novamente validados no Chrome com o build de produção.

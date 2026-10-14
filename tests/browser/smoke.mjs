@@ -113,6 +113,17 @@ try {
     'pedestrian route',
   );
   assert.equal(await evaluate('window.__gpsWatches.length'), 1);
+  assert.ok(
+    await evaluate(
+      "document.querySelector('link[rel=icon]').href.endsWith('/UniversiTur/favicon.svg')",
+    ),
+  );
+  assert.equal(
+    await evaluate(
+      "fetch(document.querySelector('link[rel=icon]').href).then(response => response.status)",
+    ),
+    200,
+  );
   assert.equal(await evaluate("document.querySelectorAll('.discovery-pin.locked').length"), 4);
   assert.equal(await progress(), 0);
 
@@ -176,6 +187,10 @@ try {
   );
   await eventually("document.querySelector('dialog').open", 'nearby simulated arrival', 16000);
   assert.equal(await progress(), 1);
+  assert.equal(
+    await evaluate("document.querySelector('.destination h2').textContent"),
+    'Biblioteca Zila Mamede',
+  );
   await eventually(
     "document.querySelector('.dialog-photo img')?.complete && document.querySelector('.dialog-photo img')?.naturalWidth>0",
     'local photo on GitHub Pages base',
@@ -205,10 +220,10 @@ try {
   assert.equal(await progress(), 0, 'Future stops stay locked');
   for (const [index, coordinates] of [
     [-5.8392, -35.2014],
-    [-5.8436, -35.1995],
-    [-5.8423, -35.2028],
     [-5.839842, -35.199024],
     [-5.8415, -35.2003],
+    [-5.8436, -35.1995],
+    [-5.8423, -35.2028],
   ].entries()) {
     await evaluate(`window.__gpsWatches[1].success(window.__reading(${coordinates.join(',')}))`);
     await eventually(

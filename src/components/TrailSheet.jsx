@@ -63,8 +63,8 @@ export default function TrailSheet({
           <h1>
             {next
               ? minimized
-                ? `${visited.length + 1}. ${next.tag || next.name}`
-                : `Ponto ${visited.length + 1} de ${stops.length} · siga o caminho`
+                ? `${stops.indexOf(next) + 1}. ${next.tag || next.name}`
+                : `Ponto ${stops.indexOf(next) + 1} de ${stops.length} · siga o caminho`
               : 'Trilha concluída!'}
           </h1>
         </div>

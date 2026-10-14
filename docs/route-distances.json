@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-14",
+  "mode": "walking",
+  "provider": "FOSSGIS OSRM routed-foot",
+  "ids": ["reitoria", "ect", "cb", "biblioteca", "convivencia"],
+  "coordinates": [
+    [-5.8392, -35.2014],
+    [-5.8436, -35.1995],
+    [-5.8423, -35.2028],
+    [-5.839842, -35.199024],
+    [-5.8415, -35.2003]
+  ],
+  "distancesMeters": [
+    [0, 639.2, 900.7, 432.5, 760.5],
+    [639.2, 0, 509.9, 609.6, 294.1],
+    [900.7, 509.9, 0, 1044.1, 718.7],
+    [432.5, 609.6, 1044.1, 0, 476.8],
+    [760.5, 294.1, 718.7, 476.8, 0]
+  ],
+  "optimizedOrder": ["reitoria", "biblioteca", "convivencia", "ect", "cb"],
+  "optimizedDistanceMeters": 1713.3,
+  "previousDistanceMeters": 2670.0
+}

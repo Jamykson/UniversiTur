@@ -17,6 +17,36 @@ export const stops = [
     duration: 8,
   },
   {
+    id: 'biblioteca',
+    name: 'Biblioteca Zila Mamede',
+    category: 'CULTURA & CONHECIMENTO',
+    short: 'Milhares de histórias. Um lugar para descobrir.',
+    // BCZM na Rua da Biblioteca; referência conferida com a foto georreferenciada.
+    coords: [-5.839842, -35.199024],
+    image: publicAsset('images/biblioteca.jpg'),
+    caption: 'Foto: Marcos Elias de Oliveira Júnior · Wikimedia Commons · CC0',
+    imageSource:
+      'https://commons.wikimedia.org/wiki/File:Biblioteca_Central_Zila_Mamede_(BCZM),_UFRN,_Natal_(RN).jpg',
+    description:
+      'A Biblioteca Central Zila Mamede nasceu em 1959 como Serviço Central de Biblioteca. Hoje, é uma referência de conhecimento e memória na universidade.',
+    tip: 'Antes de entrar, consulte os horários e as regras de visitação.',
+    duration: 10,
+  },
+  {
+    id: 'convivencia',
+    name: 'Centro de Convivência',
+    category: 'ENCONTROS & VIDA NO CAMPUS',
+    short: 'Uma pausa para sentir a universidade.',
+    coords: [-5.8415, -35.2003],
+    image: publicAsset('images/convivencia.jpg'),
+    caption: 'Restaurante da APURN, no Centro de Convivência · Foto: APURN',
+    imageSource: 'https://www.apurn.org.br/espacos',
+    description:
+      'O Centro de Convivência Djalma Marinho teve sua obra concluída em 1982. Um espaço de encontros que faz parte da vida cotidiana do campus e convida a uma pausa entre as descobertas.',
+    tip: 'Aproveite para descansar e trocar impressões sobre o passeio.',
+    duration: 7,
+  },
+  {
     id: 'ect',
     name: 'Escola de Ciências e Tecnologia',
     tag: 'ECT',
@@ -48,35 +78,5 @@ export const stops = [
       'O Centro de Biociências conecta o estudo da vida à pesquisa e ao ensino. Biologia, ecologia e biodiversidade fazem parte deste capítulo do passeio pelo campus.',
     tip: 'Observe a vegetação do caminho e faça uma pausa à sombra.',
     duration: 10,
-  },
-  {
-    id: 'biblioteca',
-    name: 'Biblioteca Zila Mamede',
-    category: 'CULTURA & CONHECIMENTO',
-    short: 'Milhares de histórias. Um lugar para descobrir.',
-    // BCZM na Rua da Biblioteca; referência conferida com a foto georreferenciada.
-    coords: [-5.839842, -35.199024],
-    image: publicAsset('images/biblioteca.jpg'),
-    caption: 'Foto: Marcos Elias de Oliveira Júnior · Wikimedia Commons · CC0',
-    imageSource:
-      'https://commons.wikimedia.org/wiki/File:Biblioteca_Central_Zila_Mamede_(BCZM),_UFRN,_Natal_(RN).jpg',
-    description:
-      'A Biblioteca Central Zila Mamede nasceu em 1959 como Serviço Central de Biblioteca. Hoje, é uma referência de conhecimento e memória na universidade.',
-    tip: 'Antes de entrar, consulte os horários e as regras de visitação.',
-    duration: 10,
-  },
-  {
-    id: 'convivencia',
-    name: 'Centro de Convivência',
-    category: 'ENCONTROS & VIDA NO CAMPUS',
-    short: 'Uma pausa para sentir a universidade.',
-    coords: [-5.8415, -35.2003],
-    image: publicAsset('images/convivencia.jpg'),
-    caption: 'Restaurante da APURN, no Centro de Convivência · Foto: APURN',
-    imageSource: 'https://www.apurn.org.br/espacos',
-    description:
-      'O Centro de Convivência Djalma Marinho teve sua obra concluída em 1982. Um espaço de encontros que faz parte da vida cotidiana do campus e encerra esta trilha com uma pausa.',
-    tip: 'Aproveite para descansar e trocar impressões sobre o passeio.',
-    duration: 7,
   },
 ];
