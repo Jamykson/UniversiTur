@@ -1,62 +1,90 @@
 # Universitur
 
-Passeio interativo pelo Campus Central da UFRN em Natal, construído com React, JavaScript, Tailwind CSS 4 e Vite. Interface responsiva em português, com mapa Leaflet, fotos, progresso persistido neste navegador e modo de simulação.
+Trilha a pé pelo Campus Central da UFRN em Natal, com React, JavaScript, Tailwind CSS 4, Vite e Leaflet. Interface mobile first, acompanhamento por GPS, progresso local, simulação pelo caminho e cinco paradas em sequência.
 
-## Executar
+## Desenvolvimento
 
-Instale Node.js 22 ou superior e execute na pasta do projeto:
+Requer Node.js 20.18 ou superior.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Abra o endereço exibido pelo Vite. Para gerar os arquivos de produção:
+Abra o endereço informado pelo Vite, incluindo `/UniversiTur/`. A configuração de base e os comandos de publicação existentes foram preservados para o GitHub Pages.
 
 ```bash
+npm run check         # lint, formatação, testes e build
+npm run lint
+npm test
+npm run format:check
+npm run format        # aplica a formatação
 npm run build
 npm run preview
 ```
 
-## Explorar
+`npm run deploy` mantém o fluxo existente com `gh-pages`, precedido pelo build. Esse comando publica o site; não faz parte dos testes.
 
-- O site abre direto no mapa em tela cheia e solicita a localização automaticamente. Permita o GPS ou clique em **Explorar com GPS** para tentar novamente. O navegador acompanha a posição apenas enquanto a página está aberta.
-- A trilha segue uma ordem fixa: Reitoria → ECT → CB → Biblioteca → Centro de Convivência. Apenas a etapa atual está liberada; chegar em outro ponto não avança o progresso.
-- A chegada a menos de 45 metros da etapa liberada abre informações, registra a visita e desbloqueia o próximo caminho quando a precisão indicada pelo GPS é de até 80 metros.
-- **Simular** usa a mesma rota a pé desenhada no mapa e move o avatar por seus trechos e curvas em até 14 segundos, após o cálculo do caminho. A simulação encerra nas proximidades (30 metros), abre as informações e libera a próxima etapa sem exigir o ponto exato; finais de rota ajustados pelo serviço de mapas são aceitos dentro da tolerância de 45 metros. A direção do avatar acompanha cada trecho. Se não houver caminho disponível, a simulação informa a falha e permite tentar novamente. Ao chegar, abre as informações; **Próxima** continua o passeio.
-- O painel inferior pode ser expandido para ver as cinco paradas. Os marcadores e a lista abrem informações sem marcar visita. O botão de caminho abre o Google Maps com navegação a pé.
-- **Reiniciar trilha** limpa o progresso local.
+## Uso
 
-## Limites e dados
+1. O app abre no mapa e solicita a localização. **Explorar com GPS** permite tentar novamente.
+2. A ordem é fixa: **Reitoria → ECT → CB → Biblioteca → Centro de Convivência**. Apenas a etapa atual pode registrar uma chegada.
+3. O GPS libera a parada a até 45 metros, com precisão informada de até 80 metros. O lugar abre automaticamente e o próximo caminho fica disponível.
+4. **Simular** usa o mesmo trajeto a pé do mapa. O avatar percorre suas curvas em até 14 segundos e chega nas proximidades: normalmente a 30 metros. Um final ajustado pelo serviço de rotas é aceito dentro de 45 metros da parada. Uma falha no trajeto não registra visita.
+5. Arraste a alça para baixo para minimizar o painel; para cima, restaure os controles ou exiba todas as paradas. A alça também aceita toque e teclado. Não há botões extras de expansão/recolhimento.
+6. Arrastar o mapa libera a câmera. O botão de localização volta a acompanhar o avatar. **Pausar passeio** interrompe o GPS ou a simulação.
+7. Ao concluir, a coruja branca apresenta sua conquista. É possível revisitar os lugares, reabrir a conquista pelo contador 5/5 ou recomeçar. Uma trilha já concluída não solicita GPS ao abrir o app.
 
-As coordenadas em `src/data.js` são aproximações iniciais: valide as entradas de cada edifício no campus antes de usar a detecção de chegada em produção. O trajeto a pé é calculado pelo serviço público FOSSGIS/OSRM usando os caminhos cadastrados no OpenStreetMap. Se não estiver disponível, a linha pontilhada indica apenas a direção em linha reta. O serviço não garante o acesso a todos os caminhos do campus. A duração é uma estimativa editorial.
+## Organização
 
-GPS exige localhost ou HTTPS e autorização do navegador. A localização fica no estado da página e não é persistida. Para calcular o trajeto, a posição e o destino são enviados ao serviço externo routing.openstreetmap.de; consulte sua [política](https://routing.openstreetmap.de/about.html). Apenas os IDs das paradas visitadas ficam em localStorage, na chave `universitour-sequential-v1`. O progresso anterior da versão por proximidade não é reutilizado. A simulação também altera esse progresso. Google Maps recebe o destino ao abrir o link; mapas, fontes e imagens usam provedores externos e dependem de internet.
+```text
+src/
+  main.jsx                  Entrada, estilos e montagem do React
+  App.jsx                   Composição da interface
+  components/               Mapa, painel, fotos, detalhes e conclusão
+  hooks/useTrailNavigation  GPS, simulação e ciclo da jornada
+  hooks/useTrailSheet        Gestos e posições do painel
+  useWalkingRoute.js        Atualização e cancelamento de rotas no React
+  walkingRouting.js         Comunicação, limites e validação do serviço de rotas
+  trail.js                  Ordem, desbloqueio e persistência do progresso
+  geography.js              Coordenadas, distâncias e direção
+  routeMovement.js          Movimento pelos trechos e chegada por proximidade
+  data.js                   Conteúdo e coordenadas das cinco paradas
+  assets.js                 URLs locais compatíveis com a base do Vite
+  playerIcon.js              Avatar vetorial
+  style.css                 Aparência e regras responsivas
+```
 
-Fotos e referências: [Campus Virtual UFRN](https://campusvirtual.ufrn.br/). Reitoria, biblioteca e convivência têm fotos dos respectivos locais. Para ECT e CB são usadas imagens de contexto (Complexo Tecnológico de Engenharia e Departamento de Ecologia), identificadas nos detalhes. A foto da Reitoria é local; as demais são carregadas do portal, com estado alternativo em caso de falha.
+A chave existente `universitour-sequential-v1` foi mantida para preservar visitas salvas. Progresso inválido é normalizado; a indisponibilidade do localStorage não impede o passeio em memória. A simulação também altera esse progresso.
 
-Mapa-base: © OpenStreetMap contributors. Unidades confirmadas no [mapa oficial da UFRN](https://www.ufrn.br/resources/documentos/Mapa%20do%20Campus%20Central%20-%20Natal%20RN.pdf). Projeto independente, sem vínculo institucional.
+## Testes de navegador
 
-## Verificação neste ambiente
+O teste usa GPS e respostas de rotas controlados, sem dependências adicionais de automação. Inicie o Vite e uma instância local do Chrome com depuração:
 
-Build de produção validado com `npm run build`. Testes no Chrome headless verificaram ausência de transbordamento horizontal e acesso ao botão principal em 320×568, 390×844, 844×390 e 1280×800. A simulação foi testada do movimento do avatar até a abertura automática das informações, persistência da visita e expansão/recolhimento do painel, sem exceções de execução. A detecção real de chegada precisa ser validada em um dispositivo com GPS no campus.
+```bash
+npm run dev
+# Em outro terminal:
+google-chrome --headless --disable-gpu --no-first-run --user-data-dir=/tmp/universitur-browser-test --remote-debugging-port=9228 about:blank
+# Em outro terminal:
+npm run test:browser
+```
 
-A interface usa CSS mobile first, altura dinâmica (`100dvh`), áreas seguras de tela e controles de toque. O avatar interpola as atualizações do GPS, com direção calculada pelo deslocamento. Arrastar ou dar zoom libera a câmera; o botão de localização volta a acompanhar. **Pausar passeio** interrompe o GPS ou a simulação. O tema usa o azul `#17457e` da referência. A apresentação é um mapa 2D com marcadores estilizados, inspirado na exploração do Pokémon GO.
+Por padrão, acessa `http://127.0.0.1:5173/UniversiTur/` e a depuração em `http://127.0.0.1:9228`. Para alterar:
 
-## Validação da trilha sequencial
+```bash
+APP_URL=http://127.0.0.1:4173/UniversiTur/ npm run test:browser
+```
 
-Build e testes da regra de progresso passaram. Teste no Chrome com GPS e respostas do serviço de rotas simulados validou: solicitação de localização na abertura, destino inicial na Reitoria, quatro etapas bloqueadas, prevenção de chegadas fora de ordem, desbloqueio das cinco paradas, conclusão e tema azul, sem exceções de execução. O serviço externo de rotas e o GPS real no campus ainda precisam de validação em campo.
+O teste verifica callbacks de GPS atrasados, pausa, cancelamento de pedidos, rotas preservadas durante a animação, chegada por proximidade, ordem das etapas, imagens locais, telas de 320×568 a 1280×800, conclusão, revisita e reinício. Feche a instância de depuração após o teste. O screenshot de conclusão é salvo em `/tmp/universitur-refactor-completion.png`.
 
-Testes da movimentação: `node --test tests/routeMovement.test.js`. Validam passagem pelas curvas, velocidade proporcional à distância dos trechos, pontos duplicados e limites do percurso.
+## Dados, privacidade e limites
 
-Teste no Chrome com uma rota curva simulada confirmou que o caminho permanece no mapa durante a animação, sem recálculo, com chegada e desbloqueio sequencial. A falha do serviço de rotas impede a movimentação e não registra visita.
+- **Coordenadas aproximadas:** valide as entradas dos edifícios em `src/data.js` antes de usar a detecção de chegada no campus. As durações das visitas são estimativas editoriais.
+- **GPS:** exige localhost ou HTTPS e autorização do navegador; funciona enquanto a página está aberta. A posição não é persistida pelo app.
+- **Rotas:** o serviço público FOSSGIS/OSRM usa o grafo de pedestres `/routed-foot/`. O trecho `driving` da URL é um token da API desse servidor; não muda o grafo para automóveis. Origem e destino são enviados a esse provedor, conforme sua [política](https://routing.openstreetmap.de/about.html). Os pedidos têm timeout de 12 segundos e limite compartilhado de um início por segundo. Respostas antigas ou inválidas são descartadas. Após falha, uma nova atualização do GPS permite tentar novamente após dez segundos.
+- **Sem rota disponível:** a linha pontilhada indica apenas direção em linha reta, não um caminho acessível. O roteador depende das vias cadastradas e não garante acesso a todos os caminhos do campus.
+- **Serviços externos:** mapas, fontes e fotos externas dependem de internet. O link de navegação a pé abre o Google Maps com o destino escolhido.
+- **Conteúdo:** [Campus Virtual UFRN](https://campusvirtual.ufrn.br/) e [mapa oficial](https://www.ufrn.br/resources/documentos/Mapa%20do%20Campus%20Central%20-%20Natal%20RN.pdf). Reitoria, biblioteca e convivência usam fotos dos respectivos lugares. ECT e CB usam imagens de contexto, identificadas nas legendas. A Reitoria e a coruja ficam no projeto; as outras fotos são remotas e têm estado alternativo em caso de falha.
+- **Créditos:** © OpenStreetMap contributors; rotas FOSSGIS. Coruja gerada a partir da referência fornecida pelo usuário. Projeto independente, sem vínculo institucional.
 
-## Painel do mapa
-
-Arraste a alça para baixo para minimizar o painel, mantendo só o nome da parada; arraste para cima para restaurar os controles. Cada gesto muda uma posição do painel. A alça também aceita toque ou ativação pelo teclado. Arraste a alça para cima novamente para exibir todas as paradas. Testado no Chrome em larguras de 320, 390 e 844 pixels, incluindo gestos de toque; o painel minimizado ocupou 88 pixels na tela de 390×844.
-
-## Conquista ao concluir
-
-Após a quinta parada, feche as informações do último lugar ou toque em **Ver minha conquista** para abrir a tela de celebração com a coruja branca. **Revisitar minhas descobertas** volta à lista; o contador 5/5 reabre a conquista. **Começar uma nova trilha** limpa o progresso. Ao abrir o app com uma trilha já concluída, a conquista aparece sem solicitar GPS.
-
-Mascote em `public/images/coruja-conquista.png`: ilustração gerada a partir da referência fornecida pelo usuário, com fundo transparente. Tela verificada no Chrome em 320×568, 390×844, 844×390 e 1280×800, incluindo carregamento da imagem, revisita e reinício.
+Os resultados da revisão e as pendências estão em [docs/REVIEW.md](docs/REVIEW.md).

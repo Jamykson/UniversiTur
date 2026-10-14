@@ -1,34 +1,59 @@
 import { useEffect, useRef, useState } from 'react';
-import { distance } from './data';
+import { distance } from './geography.js';
 import { fetchWalkingRoute } from './walkingRouting.js';
-export { fetchWalkingRoute } from './walkingRouting.js';
+
 export function useWalkingRoute(position, next, simulated) {
- const [result, setResult] = useState(null);
- const last = useRef(null), request = useRef(null), timer = useRef(null), version = useRef(0);
- useEffect(() => () => { request.current?.abort(); clearTimeout(timer.current); }, []);
- useEffect(() => {
-  if (!position || !next || simulated) {
-   version.current++; request.current?.abort(); clearTimeout(timer.current); last.current = null; setResult(null); return;
-  }
-  const previous = last.current;
-  const changed = previous?.id !== next.id;
-  if (!changed && distance(previous.position, position) < 25) return;
-  request.current?.abort(); clearTimeout(timer.current);
-  const current = ++version.current;
-  // Limit requests even when the GPS updates frequently or a destination changes.
-  const wait = Math.max(0, 1000 - (Date.now() - (previous?.time || 0)));
-  last.current = { id: next.id, position, time: Date.now() + wait };
-  setResult({ id: next.id, status: 'loading' });
-  timer.current = setTimeout(async () => {
-   const controller = new AbortController(); request.current = controller;
-   const timeout = setTimeout(() => controller.abort(), 12000);
-   try {
-    const route = await fetchWalkingRoute(position, next, controller.signal);
-    if (current === version.current) setResult(route);
-   } catch {
-    if (current === version.current) setResult({ id: next.id, status: 'error' });
-   } finally { clearTimeout(timeout); }
-  }, wait);
- }, [position, next, simulated]);
- return result?.id === next?.id ? result : null;
+  const [result, setResult] = useState(null);
+  const lastOrigin = useRef(null);
+  const request = useRef(null);
+  const generation = useRef(0);
+  const failed = useRef(false);
+
+  useEffect(
+    () => () => {
+      generation.current += 1;
+      request.current?.abort();
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (!position || !next || simulated) {
+      generation.current += 1;
+      request.current?.abort();
+      request.current = null;
+      lastOrigin.current = null;
+      setResult(null);
+      return;
+    }
+    const previous = lastOrigin.current;
+    if (
+      previous?.id === next.id &&
+      distance(previous.position, position) < 25 &&
+      (!failed.current || Date.now() - previous.time < 10000)
+    )
+      return;
+    request.current?.abort();
+    const current = ++generation.current;
+    const controller = new AbortController();
+    request.current = controller;
+    lastOrigin.current = { id: next.id, position, time: Date.now() };
+    failed.current = false;
+    setResult({ id: next.id, status: 'loading' });
+    fetchWalkingRoute(position, next, controller.signal)
+      .then((route) => {
+        if (current === generation.current) setResult(route);
+      })
+      .catch(() => {
+        if (current === generation.current) {
+          failed.current = true;
+          setResult({ id: next.id, status: 'error' });
+        }
+      })
+      .finally(() => {
+        if (request.current === controller) request.current = null;
+      });
+  }, [position, next, simulated]);
+
+  return result?.id === next?.id ? result : null;
 }
