@@ -201,13 +201,13 @@ try {
   await eventually('window.__gpsWatches.length===2', 'new GPS session');
   await evaluate('window.__gpsWatches[1].success(window.__reading(-5.8392,-35.2014,130))');
   assert.equal(await progress(), 0, 'Inaccurate GPS cannot unlock the current stop');
-  await evaluate('window.__gpsWatches[1].success(window.__reading(-5.8407,-35.2011))');
+  await evaluate('window.__gpsWatches[1].success(window.__reading(-5.839842,-35.199024))');
   assert.equal(await progress(), 0, 'Future stops stay locked');
   for (const [index, coordinates] of [
     [-5.8392, -35.2014],
     [-5.8436, -35.1995],
     [-5.8423, -35.2028],
-    [-5.8407, -35.2011],
+    [-5.839842, -35.199024],
     [-5.8415, -35.2003],
   ].entries()) {
     await evaluate(`window.__gpsWatches[1].success(window.__reading(${coordinates.join(',')}))`);

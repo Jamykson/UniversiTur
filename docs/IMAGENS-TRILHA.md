@@ -27,3 +27,7 @@ Pesquisa realizada em 14/10/2026. Dimensões verificadas nos arquivos originais 
 ## Integração no app
 
 As cinco imagens selecionadas foram copiadas para `public/images/` e ligadas aos cartões em `src/data.js`, respeitando a base `/UniversiTur/`. Os créditos e links de origem aparecem nos detalhes de cada parada. A foto da Convivência identifica explicitamente o restaurante da APURN. O carregamento das cinco fotos foi validado no Chrome usando o build de produção.
+
+## Referência geográfica da biblioteca
+
+O marcador da BCZM foi corrigido para `[-5.839842, -35.199024]`, na Rua da Biblioteca, a partir da [referência de localização](https://acharei.com.br/poi/biblioteca_central_zila_mamede_bczm_ufrn-1989302.html). A [foto georreferenciada da entrada](<https://commons.wikimedia.org/wiki/File:Biblioteca_Central_Zila_Mamede_(BCZM),_UFRN,_Natal_(RN).jpg>) foi feita em `[-5.839860, -35.198852]`, nas proximidades, corroborando a área correta. A posição anterior era `[-5.8407, -35.2011]`. O ponto deve ainda ser validado no campus para identificar a melhor entrada de pedestres.

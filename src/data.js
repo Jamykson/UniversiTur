@@ -54,7 +54,8 @@ export const stops = [
     name: 'Biblioteca Zila Mamede',
     category: 'CULTURA & CONHECIMENTO',
     short: 'Milhares de histórias. Um lugar para descobrir.',
-    coords: [-5.8407, -35.2011],
+    // BCZM na Rua da Biblioteca; referência conferida com a foto georreferenciada.
+    coords: [-5.839842, -35.199024],
     image: publicAsset('images/biblioteca.jpg'),
     caption: 'Foto: Marcos Elias de Oliveira Júnior · Wikimedia Commons · CC0',
     imageSource:
